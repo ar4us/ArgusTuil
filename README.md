@@ -17,7 +17,7 @@ Designed for clean Windows installations, it provides a sleek dark interface wit
 Open **PowerShell** (or **Windows Terminal**) as **Administrator** and run the following command:
 
 ```powershell
-irm https://raw.githubusercontent.com/ar4us/ArgusTuil/main/argustuil.ps1 | iex
+irm ar4us.github.io/ArgusTuil/argustuil.ps1 | iex
 ```
 
 ### How to open an admin terminal:
@@ -40,7 +40,7 @@ irm https://raw.githubusercontent.com/ar4us/ArgusTuil/main/argustuil.ps1 | iex
 Apply a predefined configuration silently without manual selection:
 
 ```powershell
-& ([ScriptBlock]::Create((irm https://raw.githubusercontent.com/ar4us/ArgusTuil/main/argustuil.ps1))) -Preset Standard
+& ([ScriptBlock]::Create((irm ar4us.github.io/ArgusTuil/argustuil.ps1))) -Preset Standard
 ```
 
 | Preset | Description |
