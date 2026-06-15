@@ -8322,8 +8322,8 @@ $sync.configs.themes = @'
                    "CheckBoxMargin":  "15,0,0,2",
                    "TabContentMargin":  "5",
                    "TabButtonFontSize":  "14",
-                   "TabButtonWidth":  "110",
-                   "TabButtonHeight":  "26",
+                   "TabButtonWidth":  "190",
+                   "TabButtonHeight":  "38",
                    "TabRowHeightInPixels":  "50",
                    "ToolTipWidth":  "300",
                    "IconFontSize":  "14",
@@ -8383,6 +8383,7 @@ $sync.configs.themes = @'
                   "ToggleButtonOnColor":  "#10B981",
                   "ToggleButtonOffColor":  "#707070",
                   "ToolTipBackgroundColor":  "#F7F7F7",
+                  "SidebarBackgroundColor":  "#EAEAEA",
                   "BorderColor":  "#232629",
                   "BorderOpacity":  "0.2"
               },
@@ -8423,6 +8424,7 @@ $sync.configs.themes = @'
                  "ToggleButtonOnColor":  "#10B981",
                  "ToggleButtonOffColor":  "#707070",
                  "ToolTipBackgroundColor":  "#2F373D",
+                 "SidebarBackgroundColor":  "#1A1D20",
                  "BorderColor":  "#2F373D",
                  "BorderOpacity":  "0.2"
              }
@@ -11038,272 +11040,274 @@ $inputXML = @'
     </Window.Resources>
     <Grid Background="{DynamicResource MainBackgroundColor}" ShowGridLines="False" Name="WPFMainGrid" Width="Auto" Height="Auto" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/> <!-- Offline banner -->
+            <RowDefinition Height="*"/>    <!-- Main Dashboard Area -->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
         <!-- Offline banner -->
         <Border Name="WPFOfflineBanner" Grid.Row="0" Background="#8B0000" Visibility="Collapsed" Padding="6,4">
             <TextBlock Text="&#x26A0; Offline Mode - No Internet Connection" Foreground="White" FontWeight="Bold"
                 HorizontalAlignment="Center" FontSize="13" Background="Transparent"/>
         </Border>
-        <Grid Grid.Row="1" Background="{DynamicResource MainBackgroundColor}">
+
+        <!-- Main Dashboard Area -->
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/> <!-- Navigation buttons -->
-                <ColumnDefinition Width="*"/> <!-- Search bar and buttons -->
+                <ColumnDefinition Width="220"/> <!-- Sidebar Navigation -->
+                <ColumnDefinition Width="*"/>   <!-- Main Workspace Content -->
             </Grid.ColumnDefinitions>
 
-            <!-- Navigation Buttons Panel -->
-            <StackPanel Name="NavDockPanel" Orientation="Horizontal" Grid.Column="0" Margin="5,5,10,5">
-                <StackPanel Name="NavLogoPanel" Orientation="Horizontal" HorizontalAlignment="Left" Background="{DynamicResource MainBackgroundColor}" SnapsToDevicePixels="True" Margin="10,0,20,0">
+            <!-- Sidebar Navigation -->
+            <Grid Grid.Column="0" Background="{DynamicResource SidebarBackgroundColor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"/>  <!-- Logo & Title -->
+                    <RowDefinition Height="*"/>   <!-- Navigation Buttons -->
+                    <RowDefinition Height="60"/>  <!-- Bottom Actions (Theme/Scaling/Settings) -->
+                </Grid.RowDefinitions>
+
+                <!-- Logo & Title -->
+                <StackPanel Name="NavLogoPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,10,0">
+                    <!-- Script will inject the logo here -->
+                    <TextBlock Text="ArgusTuil" Foreground="{DynamicResource MainForegroundColor}" FontSize="20" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
-                <ToggleButton Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonInstallBackgroundColor}" Foreground="white" FontWeight="Bold" Name="WPFTab1BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonInstallForegroundColor}" >
-                            <Underline>I</Underline>nstall
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonTweaksBackgroundColor}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" FontWeight="Bold" Name="WPFTab2BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonTweaksForegroundColor}">
-                            <Underline>T</Underline>weaks
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonConfigBackgroundColor}" Foreground="{DynamicResource ButtonConfigForegroundColor}" FontWeight="Bold" Name="WPFTab3BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonConfigForegroundColor}">
-                            <Underline>C</Underline>onfig
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonUpdatesBackgroundColor}" Foreground="{DynamicResource ButtonUpdatesForegroundColor}" FontWeight="Bold" Name="WPFTab4BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonUpdatesForegroundColor}">
-                            <Underline>U</Underline>pdates
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-                <ToggleButton Margin="0,0,5,0" Height="{DynamicResource TabButtonHeight}" Width="Auto" MinWidth="{DynamicResource TabButtonWidth}"
-                    Background="{DynamicResource ButtonWin11ISOBackgroundColor}" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}" FontWeight="Bold" Name="WPFTab5BT">
-                    <ToggleButton.Content>
-                        <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}">
-                            <Underline>W</Underline>in11 Creator
-                        </TextBlock>
-                    </ToggleButton.Content>
-                </ToggleButton>
-            </StackPanel>
 
-            <!-- Search Bar and Action Buttons -->
-            <Grid Name="GridBesideNavDockPanel" Grid.Column="1" Background="{DynamicResource MainBackgroundColor}" ShowGridLines="False" Height="Auto">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/> <!-- Search bar area - priority space -->
-                    <ColumnDefinition Width="Auto"/><!-- Buttons area -->
-                </Grid.ColumnDefinitions>
+                <!-- Navigation Buttons (Stacked Vertically) -->
+                <StackPanel Name="NavDockPanel" Grid.Row="1" Orientation="Vertical" Margin="15,10,15,10">
+                    <ToggleButton Margin="0,4,0,4" Height="{DynamicResource TabButtonHeight}" Width="190" HorizontalAlignment="Left"
+                        Background="{DynamicResource ButtonInstallBackgroundColor}" Foreground="white" FontWeight="Bold" Name="WPFTab1BT">
+                        <ToggleButton.Content>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonInstallForegroundColor}" >
+                                <Underline>I</Underline>nstall
+                            </TextBlock>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Margin="0,4,0,4" Height="{DynamicResource TabButtonHeight}" Width="190" HorizontalAlignment="Left"
+                        Background="{DynamicResource ButtonTweaksBackgroundColor}" Foreground="{DynamicResource ButtonTweaksForegroundColor}" FontWeight="Bold" Name="WPFTab2BT">
+                        <ToggleButton.Content>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonTweaksForegroundColor}">
+                                <Underline>T</Underline>weaks
+                            </TextBlock>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Margin="0,4,0,4" Height="{DynamicResource TabButtonHeight}" Width="190" HorizontalAlignment="Left"
+                        Background="{DynamicResource ButtonConfigBackgroundColor}" Foreground="{DynamicResource ButtonConfigForegroundColor}" FontWeight="Bold" Name="WPFTab3BT">
+                        <ToggleButton.Content>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonConfigForegroundColor}">
+                                <Underline>C</Underline>onfig
+                            </TextBlock>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Margin="0,4,0,4" Height="{DynamicResource TabButtonHeight}" Width="190" HorizontalAlignment="Left"
+                        Background="{DynamicResource ButtonUpdatesBackgroundColor}" Foreground="{DynamicResource ButtonUpdatesForegroundColor}" FontWeight="Bold" Name="WPFTab4BT">
+                        <ToggleButton.Content>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonUpdatesForegroundColor}">
+                                <Underline>U</Underline>pdates
+                            </TextBlock>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <ToggleButton Margin="0,4,0,4" Height="{DynamicResource TabButtonHeight}" Width="190" HorizontalAlignment="Left"
+                        Background="{DynamicResource ButtonWin11ISOBackgroundColor}" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}" FontWeight="Bold" Name="WPFTab5BT">
+                        <ToggleButton.Content>
+                            <TextBlock FontSize="{DynamicResource TabButtonFontSize}" Background="Transparent" Foreground="{DynamicResource ButtonWin11ISOForegroundColor}">
+                                <Underline>W</Underline>in11 Creator
+                            </TextBlock>
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                </StackPanel>
 
-                <Border Grid.Column="0" Margin="5,0,0,0" Width="{DynamicResource SearchBarWidth}" Height="{DynamicResource SearchBarHeight}" VerticalAlignment="Center" HorizontalAlignment="Left">
-                    <Grid>
-                        <TextBox
-                            Width="{DynamicResource SearchBarWidth}"
-                            Height="{DynamicResource SearchBarHeight}"
-                            FontSize="{DynamicResource SearchBarTextBoxFontSize}"
-                            VerticalAlignment="Center" HorizontalAlignment="Left"
-                            BorderThickness="1"
-                            Name="SearchBar"
-                            Foreground="{DynamicResource MainForegroundColor}" Background="{DynamicResource MainBackgroundColor}"
-                            Padding="3,3,30,0"
-                            ToolTip="Press Ctrl-F and type app name to filter application list below. Press Esc to reset the filter">
-                        </TextBox>
-                        <TextBlock
-                            VerticalAlignment="Center" HorizontalAlignment="Right"
+                <!-- Bottom Actions Panel -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Settings button triggers settings menu popup -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,15,0">
+                        <Button Name="ThemeButton"
+                            Style="{StaticResource HoverButtonStyle}"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Foreground="{DynamicResource MainForegroundColor}"
+                            FontSize="{DynamicResource SettingsIconFontSize}"
+                            Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
+                            Margin="0,0,10,0"
                             FontFamily="Segoe MDL2 Assets"
-                            Foreground="{DynamicResource ButtonBackgroundSelectedColor}"
-                            FontSize="{DynamicResource IconFontSize}"
-                            Margin="0,0,8,0" Width="Auto" Height="Auto">&#xE721;
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                <Button Grid.Column="0"
-                    VerticalAlignment="Center" HorizontalAlignment="Left"
-                    Name="SearchBarClearButton"
-                    Style="{StaticResource SearchBarClearButtonStyle}"
-                    Margin="213,0,0,0" Visibility="Collapsed">
-                </Button>
+                            Content="N/A"
+                            ToolTip="Change the ArgusTuil UI Theme"
+                        />
+                        <Popup Name="ThemePopup"
+                            IsOpen="False"
+                            PlacementTarget="{Binding ElementName=ThemeButton}" Placement="Top"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                            <Border Background="{DynamicResource MainBackgroundColor}" BorderBrush="{DynamicResource MainForegroundColor}" BorderThickness="1" CornerRadius="0" Margin="0">
+                                <StackPanel Background="{DynamicResource MainBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Auto" Name="AutoThemeMenuItem" Foreground="{DynamicResource MainForegroundColor}">
+                                        <MenuItem.ToolTip>
+                                            <ToolTip Content="Follow the Windows Theme"/>
+                                        </MenuItem.ToolTip>
+                                    </MenuItem>
+                                    <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Dark" Name="DarkThemeMenuItem" Foreground="{DynamicResource MainForegroundColor}">
+                                        <MenuItem.ToolTip>
+                                            <ToolTip Content="Use Dark Theme"/>
+                                        </MenuItem.ToolTip>
+                                    </MenuItem>
+                                    <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Light" Name="LightThemeMenuItem" Foreground="{DynamicResource MainForegroundColor}">
+                                        <MenuItem.ToolTip>
+                                            <ToolTip Content="Use Light Theme"/>
+                                        </MenuItem.ToolTip>
+                                    </MenuItem>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
 
-                <!-- Buttons Container -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5,5,5,5">
-                    <Button Name="ThemeButton"
-                        Style="{StaticResource HoverButtonStyle}"
-                        BorderBrush="Transparent"
-                    Background="{DynamicResource MainBackgroundColor}"
-                    Foreground="{DynamicResource MainForegroundColor}"
-                    FontSize="{DynamicResource SettingsIconFontSize}"
-                    Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
-                    HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Margin="0,0,2,0"
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="N/A"
-                    ToolTip="Change the ArgusTuil UI Theme"
-                />
-                    <Popup Name="ThemePopup"
-                    IsOpen="False"
-                    PlacementTarget="{Binding ElementName=ThemeButton}" Placement="Bottom"
-                    HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Border Background="{DynamicResource MainBackgroundColor}" BorderBrush="{DynamicResource MainForegroundColor}" BorderThickness="1" CornerRadius="0" Margin="0">
-                        <StackPanel Background="{DynamicResource MainBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Auto" Name="AutoThemeMenuItem" Foreground="{DynamicResource MainForegroundColor}">
-                                <MenuItem.ToolTip>
-                                    <ToolTip Content="Follow the Windows Theme"/>
-                                </MenuItem.ToolTip>
-                            </MenuItem>
-                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Dark" Name="DarkThemeMenuItem" Foreground="{DynamicResource MainForegroundColor}">
-                                <MenuItem.ToolTip>
-                                    <ToolTip Content="Use Dark Theme"/>
-                                </MenuItem.ToolTip>
-                            </MenuItem>
-                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Light" Name="LightThemeMenuItem" Foreground="{DynamicResource MainForegroundColor}">
-                                <MenuItem.ToolTip>
-                                    <ToolTip Content="Use Light Theme"/>
-                                </MenuItem.ToolTip>
-                            </MenuItem>
-                        </StackPanel>
-                    </Border>
-                </Popup>
+                        <Button Name="FontScalingButton"
+                            Style="{StaticResource HoverButtonStyle}"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Foreground="{DynamicResource MainForegroundColor}"
+                            FontSize="{DynamicResource SettingsIconFontSize}"
+                            Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
+                            Margin="0,0,10,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Content="&#xE8D3;"
+                            ToolTip="Adjust Font Scaling for Accessibility"
+                        />
+                        <Popup Name="FontScalingPopup"
+                            IsOpen="False"
+                            PlacementTarget="{Binding ElementName=FontScalingButton}" Placement="Top"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                            <Border Background="{DynamicResource MainBackgroundColor}" BorderBrush="{DynamicResource MainForegroundColor}" BorderThickness="1" CornerRadius="0" Margin="0">
+                                <Grid Background="{DynamicResource MainBackgroundColor}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Slider Name="FontScalingSlider" Grid.Row="0" Grid.Column="0" Minimum="0.8" Maximum="1.5" Value="1.0" Width="150" Margin="10" TickFrequency="0.05" IsSnapToTickEnabled="True"/>
+                                    <TextBlock Name="FontScalingValue" Grid.Row="0" Grid.Column="1" Text="100%" VerticalAlignment="Center" Margin="0,10,10,10" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <Button Name="FontScalingResetButton" Grid.Row="1" Grid.Column="0" Content="Reset" HorizontalAlignment="Left" Width="70" Height="22" Margin="10,0,10,10"/>
+                                    <Button Name="FontScalingApplyButton" Grid.Row="1" Grid.Column="1" Content="Apply" HorizontalAlignment="Right" Width="70" Height="22" Margin="0,0,10,10"/>
+                                </Grid>
+                            </Border>
+                        </Popup>
 
-                    <Button Name="FontScalingButton"
-                        Style="{StaticResource HoverButtonStyle}"
-                        BorderBrush="Transparent"
-                    Background="{DynamicResource MainBackgroundColor}"
-                    Foreground="{DynamicResource MainForegroundColor}"
-                    FontSize="{DynamicResource SettingsIconFontSize}"
-                    Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
-                    HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Margin="0,0,2,0"
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE8D3;"
-                    ToolTip="Adjust Font Scaling for Accessibility"
-                />
-                    <Popup Name="FontScalingPopup"
-                    IsOpen="False"
-                    PlacementTarget="{Binding ElementName=FontScalingButton}" Placement="Bottom"
-                    HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Border Background="{DynamicResource MainBackgroundColor}" BorderBrush="{DynamicResource MainForegroundColor}" BorderThickness="1" CornerRadius="0" Margin="0">
-                        <StackPanel Background="{DynamicResource MainBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="200">
-                            <TextBlock Text="Font Scaling"
-                                       FontSize="{DynamicResource ButtonFontSize}"
-                                       Foreground="{DynamicResource MainForegroundColor}"
-                                       HorizontalAlignment="Center"
-                                       Margin="10,5,10,5"
-                                       FontWeight="Bold"/>
-                            <Separator Margin="5,0,5,5"/>
-                            <StackPanel Orientation="Horizontal" Margin="10,5,10,10">
-                                <TextBlock Text="Small"
-                                           FontSize="{DynamicResource ButtonFontSize}"
-                                           Foreground="{DynamicResource MainForegroundColor}"
-                                           VerticalAlignment="Center"
-                                           Margin="0,0,10,0"/>
-                                <Slider Name="FontScalingSlider"
-                                        Minimum="0.75" Maximum="2.0"
-                                        Value="1.0"
-                                        TickFrequency="0.25"
-                                        TickPlacement="BottomRight"
-                                        IsSnapToTickEnabled="True"
-                                        Width="120"
-                                        VerticalAlignment="Center"/>
-                                <TextBlock Text="Large"
-                                           FontSize="{DynamicResource ButtonFontSize}"
-                                           Foreground="{DynamicResource MainForegroundColor}"
-                                           VerticalAlignment="Center"
-                                           Margin="10,0,0,0"/>
-                            </StackPanel>
-                            <TextBlock Name="FontScalingValue"
-                                       Text="100%"
-                                       FontSize="{DynamicResource ButtonFontSize}"
-                                       Foreground="{DynamicResource MainForegroundColor}"
-                                       HorizontalAlignment="Center"
-                                       Margin="10,0,10,5"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0,10,10">
-                                <Button Name="FontScalingResetButton"
-                                        Content="Reset"
-                                        Style="{StaticResource HoverButtonStyle}"
-                                        Width="60" Height="25"
-                                        Margin="5,0,5,0"/>
-                                <Button Name="FontScalingApplyButton"
-                                        Content="Apply"
-                                        Style="{StaticResource HoverButtonStyle}"
-                                        Width="60" Height="25"
-                                        Margin="5,0,5,0"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                </Popup>
-
-                    <Button Name="SettingsButton"
-                        Style="{StaticResource HoverButtonStyle}"
-                        BorderBrush="Transparent"
-                    Background="{DynamicResource MainBackgroundColor}"
-                    Foreground="{DynamicResource MainForegroundColor}"
-                    FontSize="{DynamicResource SettingsIconFontSize}"
-                    Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
-                    HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Margin="0,0,2,0"
-                    FontFamily="Segoe MDL2 Assets"
-                    Content="&#xE713;"/>
-                    <Popup Name="SettingsPopup"
-                    IsOpen="False"
-                    PlacementTarget="{Binding ElementName=SettingsButton}" Placement="Bottom"
-                    HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Border Background="{DynamicResource MainBackgroundColor}" BorderBrush="{DynamicResource MainForegroundColor}" BorderThickness="1" CornerRadius="0" Margin="0">
-                        <StackPanel Background="{DynamicResource MainBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Import" Name="ImportMenuItem" Foreground="{DynamicResource MainForegroundColor}">
-                                <MenuItem.ToolTip>
-                                    <ToolTip Content="Import Configuration from exported file."/>
-                                </MenuItem.ToolTip>
-                            </MenuItem>
-                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Export" Name="ExportMenuItem" Foreground="{DynamicResource MainForegroundColor}">
-                                <MenuItem.ToolTip>
-                                    <ToolTip Content="Export Selected Elements and copy execution command to clipboard."/>
-                                </MenuItem.ToolTip>
-                            </MenuItem>
-                            <Separator/>
-                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="About" Name="AboutMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
-                            <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Documentation" Name="DocumentationMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
-                        </StackPanel>
-                    </Border>
-                </Popup>
-
-                    <Button
-                    Content="&#x2212;" BorderThickness="0"
-                    BorderBrush="Transparent"
-                    Background="{DynamicResource MainBackgroundColor}"
-                    Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
-                    HorizontalAlignment="Right" VerticalAlignment="Top"
-                    Margin="0,0,0,0"
-                    FontFamily="{DynamicResource FontFamily}"
-                    Foreground="{DynamicResource MainForegroundColor}" FontSize="{DynamicResource CloseIconFontSize}" Name="WPFMinimizeButton" />
-
-                    <Button
-                    Content="&#xD7;" BorderThickness="0"
-                BorderBrush="Transparent"
-                Background="{DynamicResource MainBackgroundColor}"
-                Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
-                HorizontalAlignment="Right" VerticalAlignment="Top"
-                Margin="0,0,0,0"
-                FontFamily="{DynamicResource FontFamily}"
-                Foreground="{DynamicResource MainForegroundColor}" FontSize="{DynamicResource CloseIconFontSize}" Name="WPFCloseButton" />
-                </StackPanel>
+                        <Button Name="SettingsButton"
+                            Style="{StaticResource HoverButtonStyle}"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Foreground="{DynamicResource MainForegroundColor}"
+                            FontSize="{DynamicResource SettingsIconFontSize}"
+                            Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
+                            Margin="0,0,10,0"
+                            FontFamily="Segoe MDL2 Assets"
+                            Content="&#xE713;"
+                            ToolTip="Settings / Configuration"
+                        />
+                        <Popup Name="SettingsPopup"
+                            IsOpen="False"
+                            PlacementTarget="{Binding ElementName=SettingsButton}" Placement="Top"
+                            HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                            <Border Background="{DynamicResource MainBackgroundColor}" BorderBrush="{DynamicResource MainForegroundColor}" BorderThickness="1" CornerRadius="0" Margin="0">
+                                <StackPanel Background="{DynamicResource MainBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Import" Name="ImportMenuItem" Foreground="{DynamicResource MainForegroundColor}">
+                                        <MenuItem.ToolTip>
+                                            <ToolTip Content="Import Configuration from exported file."/>
+                                        </MenuItem.ToolTip>
+                                    </MenuItem>
+                                    <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Export" Name="ExportMenuItem" Foreground="{DynamicResource MainForegroundColor}">
+                                        <MenuItem.ToolTip>
+                                            <ToolTip Content="Export Selected Elements and copy execution command to clipboard."/>
+                                        </MenuItem.ToolTip>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="About" Name="AboutMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
+                                    <MenuItem FontSize="{DynamicResource ButtonFontSize}" Header="Documentation" Name="DocumentationMenuItem" Foreground="{DynamicResource MainForegroundColor}"/>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+                    </StackPanel>
+                </Grid>
             </Grid>
-        </Grid>
 
-        <TabControl Name="WPFTabNav" Background="Transparent" Width="Auto" Height="Auto" BorderBrush="Transparent" BorderThickness="0" Grid.Row="2" Grid.Column="0" Padding="-1">
+            <!-- Main Workspace Content -->
+            <Grid Grid.Column="1" Background="{DynamicResource MainBackgroundColor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>  <!-- Top Bar -->
+                    <RowDefinition Height="*"/>   <!-- Tab Content -->
+                </Grid.RowDefinitions>
+
+                <!-- Top Bar (Search & Window Controls) -->
+                <Grid Name="GridBesideNavDockPanel" Grid.Row="0" Background="{DynamicResource MainBackgroundColor}" Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>     <!-- Search bar -->
+                        <ColumnDefinition Width="Auto"/>  <!-- Minimize / Close buttons -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Search Bar -->
+                    <Border Grid.Column="0" Margin="15,0,0,0" Width="{DynamicResource SearchBarWidth}" Height="{DynamicResource SearchBarHeight}" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Grid>
+                            <TextBox
+                                Width="{DynamicResource SearchBarWidth}"
+                                Height="{DynamicResource SearchBarHeight}"
+                                Name="SearchBar"
+                                Text=""
+                                Background="{DynamicResource ComboBoxBackgroundColor}"
+                                Foreground="{DynamicResource MainForegroundColor}"
+                                BorderBrush="{DynamicResource BorderColor}"
+                                BorderThickness="1"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                VerticalContentAlignment="Center"
+                                FontSize="{DynamicResource SearchBarTextBoxFontSize}"
+                                MaxLength="30"
+                                Padding="5,0,25,0"
+                            />
+                            <TextBlock
+                                VerticalAlignment="Center" HorizontalAlignment="Right"
+                                FontFamily="Segoe MDL2 Assets"
+                                Foreground="{DynamicResource ButtonBackgroundSelectedColor}"
+                                FontSize="{DynamicResource IconFontSize}"
+                                Margin="0,0,8,0" Width="Auto" Height="Auto">&#xE721;
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                    <Button Grid.Column="0"
+                        VerticalAlignment="Center" HorizontalAlignment="Left"
+                        Name="SearchBarClearButton"
+                        Style="{StaticResource SearchBarClearButtonStyle}"
+                        Margin="213,0,0,0" Visibility="Collapsed">
+                    </Button>
+
+                    <!-- Minimize / Close Buttons -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0,5,0">
+                        <Button
+                            Content="&#x2212;" BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Margin="0,0,2,0"
+                            FontFamily="{DynamicResource FontFamily}"
+                            Foreground="{DynamicResource MainForegroundColor}" FontSize="{DynamicResource CloseIconFontSize}" Name="WPFMinimizeButton" />
+
+                        <Button
+                            Content="&#xD7;" BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Width="{DynamicResource IconButtonSize}" Height="{DynamicResource IconButtonSize}"
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Margin="0,0,0,0"
+                            FontFamily="{DynamicResource FontFamily}"
+                            Foreground="{DynamicResource MainForegroundColor}" FontSize="{DynamicResource CloseIconFontSize}" Name="WPFCloseButton" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- Content Area -->
+                <TabControl Name="WPFTabNav" Grid.Row="1" Background="Transparent" Width="Auto" Height="Auto" BorderBrush="Transparent" BorderThickness="0" Padding="-1">
             <TabItem Header="Install" Visibility="Collapsed" Name="WPFTab1">
                 <Grid Background="Transparent" >
 
@@ -11785,7 +11789,9 @@ $inputXML = @'
                 </Grid>
             </TabItem>
         </TabControl>
+        </Grid>
     </Grid>
+</Grid>
 </Window>
 
 '@

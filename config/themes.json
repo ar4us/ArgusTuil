@@ -17,8 +17,8 @@
     "CheckBoxMargin": "15,0,0,2",
     "TabContentMargin": "5",
     "TabButtonFontSize": "14",
-    "TabButtonWidth": "110",
-    "TabButtonHeight": "26",
+    "TabButtonWidth": "190",
+    "TabButtonHeight": "38",
     "TabRowHeightInPixels": "50",
     "ToolTipWidth": "300",
     "IconFontSize": "14",
@@ -78,6 +78,7 @@
     "ToggleButtonOnColor": "#10B981",
     "ToggleButtonOffColor": "#707070",
     "ToolTipBackgroundColor": "#F7F7F7",
+    "SidebarBackgroundColor": "#EAEAEA",
     "BorderColor": "#232629",
     "BorderOpacity": "0.2"
   },
@@ -118,6 +119,7 @@
     "ToggleButtonOnColor": "#10B981",
     "ToggleButtonOffColor": "#707070",
     "ToolTipBackgroundColor": "#2F373D",
+    "SidebarBackgroundColor": "#1A1D20",
     "BorderColor": "#2F373D",
     "BorderOpacity": "0.2"
   }
