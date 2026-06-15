@@ -37,8 +37,8 @@ $script += "`$WinUtilAutounattendXml = @'`r`n$autounattendXml`r`n'@"
 
 $script += Get-Content -Path scripts\main.ps1 -Raw
 
-Set-Content -Path winutil.ps1 -Value $script
+Set-Content -Path argustuil.ps1 -Value $script
 
 if ($Run) {
-    .\Winutil.ps1
+    .\argustuil.ps1
 }
